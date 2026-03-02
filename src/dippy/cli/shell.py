@@ -27,7 +27,12 @@ def classify(ctx: HandlerContext) -> Classification:
             break
 
     if c_idx is None:
-        return Classification("ask", description=f"{base} interactive")
+        # Check if a non-flag argument looks like a script file
+        has_script_arg = any(
+            not tok.startswith("-") for tok in tokens[1:]
+        )
+        desc = f"{base} script" if has_script_arg else f"{base} interactive"
+        return Classification("ask", description=desc)
 
     if c_idx + 1 >= len(tokens):
         return Classification("ask", description=f"{base} -c (no command)")

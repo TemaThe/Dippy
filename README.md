@@ -5,6 +5,8 @@
 <h1 align="center">🐤 Dippy</h1>
 <p align="center"><em>Because <code>ls</code> shouldn't need approval</em></p>
 
+This is a fork of [ldayton/Dippy](https://github.com/ldayton/Dippy). See [Diff with origin Dippy](#diff-with-origin-dippy) for what changed.
+
 ---
 
 > **Stop the permission fatigue.** Claude Code asks for approval on every `ls`, `git status`, and `cat` - destroying your flow state. You check Slack, come back, and your assistant's just sitting there waiting.
@@ -98,7 +100,28 @@ Dippy reads config from `~/.dippy/config` (global) and `.dippy` in your project 
 
 ## Extensions
 
-Dippy can do more than filter shell commands. See the [wiki](https://github.com/ldayton/Dippy/wiki) for additional capabilities.
+See the [wiki](https://github.com/ldayton/Dippy/wiki) for additional capabilities. Fork-specific extensions are listed in [Diff with origin Dippy](#diff-with-origin-dippy).
+
+---
+
+## Diff with origin Dippy
+
+This fork adds the following changes on top of [ldayton/Dippy](https://github.com/ldayton/Dippy):
+
+### Script Unfolding
+
+When Claude runs `bash script.sh`, Dippy reads and analyzes every command inside the script instead of blindly approving or blocking. Safe scripts are auto-approved; unsafe ones report exactly which line failed. Supports `bash`/`sh`/`zsh script.sh`, `./script.sh`, and `source script.sh` patterns with depth-limited recursion.
+
+**Performance** (tested on MacBook M1 Pro) — analysis scales linearly (~0.16 ms/line):
+
+| Script size | Time |
+|-------------|------|
+| 100 lines | ~16 ms |
+| 500 lines | ~80 ms |
+| 1,000 lines | ~160 ms |
+| 2,000 lines | ~320 ms |
+| 5,000 lines | ~800 ms |
+| 10,000 lines | ~1,600 ms |
 
 ---
 
