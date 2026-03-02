@@ -125,6 +125,22 @@ When Claude runs `bash script.sh`, Dippy reads and analyzes every command inside
 | 5,000 lines | ~800 ms |
 | 10,000 lines | ~1,600 ms |
 
+### Dangerous Module Explanations
+
+When the Python handler flags a dangerous import, the message now explains **why** the module is flagged. This helps LLMs understand the risk and choose alternatives on their own.
+
+Before:
+```
+dangerous module: xml.etree.ElementTree
+```
+
+After:
+```
+dangerous module: xml.etree.ElementTree — vulnerable to XXE and billion-laughs XML bomb attacks
+```
+
+Every module in the dangerous list has a reason: code execution, file I/O, network access, XXE vulnerabilities, etc.
+
 ---
 
 ## Uninstall
