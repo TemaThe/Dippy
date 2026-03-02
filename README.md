@@ -141,6 +141,18 @@ dangerous module: xml.etree.ElementTree — vulnerable to XXE and billion-laughs
 
 Every module in the dangerous list has a reason: code execution, file I/O, network access, XXE vulnerabilities, etc.
 
+### `allow-python-module` Directive
+
+Per-module override for the Python handler's import checks. Instead of `allow python3 *` (which bypasses ALL analysis), you can selectively allow specific modules:
+
+```
+allow-python-module xml.etree.ElementTree
+allow-python-module pathlib
+allow-python-module configparser
+```
+
+Allowing a root module covers all its submodules — `allow-python-module xml` also allows `xml.etree`, `xml.sax`, etc. Other safety checks (eval, dangerous attrs, unknown modules) remain active.
+
 ---
 
 ## Uninstall

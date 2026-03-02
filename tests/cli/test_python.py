@@ -1285,3 +1285,206 @@ print(data, counts)
 """
         violations = analyze_python_source(source)
         assert len(violations) == 0, f"Expected no violations, got {violations}"
+
+
+class TestPythonAllowModule:
+    """Tests for allow-python-module config directive."""
+
+    def test_allow_dangerous_module_via_config(self, check, tmp_path):
+        """Script importing a dangerous module should be approved when allowed via config."""
+        from dippy.core.config import Config
+
+        script = tmp_path / "xml_allowed.py"
+        script.write_text("""
+import xml.etree.ElementTree as ET
+root = ET.fromstring('<root/>')
+print(root.tag)
+""")
+        config = Config(python_allow_modules={"xml.etree.ElementTree"})
+        result = check(f"python {script}", config=config)
+        assert is_approved(result), "xml.etree.ElementTree should be approved when allowed"
+
+    def test_dangerous_module_still_blocked_without_config(self, check, tmp_path):
+        """Same script without config override should still be blocked."""
+        script = tmp_path / "xml_no_config.py"
+        script.write_text("""
+import xml.etree.ElementTree as ET
+root = ET.fromstring('<root/>')
+""")
+        result = check(f"python {script}")
+        assert needs_confirmation(result), "xml.etree should be blocked without config"
+
+    def test_allow_root_module_covers_submodules(self, check, tmp_path):
+        """Allowing root module (xml) should also allow submodules (xml.etree)."""
+        from dippy.core.config import Config
+
+        script = tmp_path / "xml_root_allowed.py"
+        script.write_text("""
+from xml.etree import ElementTree
+root = ElementTree.fromstring('<root/>')
+print(root.tag)
+""")
+        config = Config(python_allow_modules={"xml"})
+        result = check(f"python {script}", config=config)
+        assert is_approved(result), "xml submodules should be approved when root is allowed"
+
+    def test_allow_pathlib_via_config(self, check, tmp_path):
+        """Allowing pathlib should let pathlib imports pass."""
+        from dippy.core.config import Config
+
+        script = tmp_path / "pathlib_allowed.py"
+        script.write_text("""
+from pathlib import Path
+p = Path(".")
+print(p.name)
+""")
+        config = Config(python_allow_modules={"pathlib"})
+        result = check(f"python {script}", config=config)
+        assert is_approved(result), "pathlib should be approved when allowed"
+
+    def test_allow_from_import_via_config(self, check, tmp_path):
+        """from-import of allowed module should pass."""
+        from dippy.core.config import Config
+
+        script = tmp_path / "configparser_allowed.py"
+        script.write_text("""
+from configparser import ConfigParser
+c = ConfigParser()
+print(type(c))
+""")
+        config = Config(python_allow_modules={"configparser"})
+        result = check(f"python {script}", config=config)
+        assert is_approved(result), "configparser should be approved when allowed"
+
+    def test_allow_does_not_affect_other_modules(self, check, tmp_path):
+        """Allowing one module should not affect other dangerous modules."""
+        from dippy.core.config import Config
+
+        script = tmp_path / "mixed_modules.py"
+        script.write_text("""
+import xml.etree.ElementTree as ET
+import subprocess
+""")
+        config = Config(python_allow_modules={"xml.etree.ElementTree"})
+        result = check(f"python {script}", config=config)
+        assert needs_confirmation(result), "subprocess should still be blocked"
+
+    def test_config_parse_python_allow_module(self):
+        """allow-python-module should be parsed correctly."""
+        from dippy.core.config import parse_config
+
+        text = """
+allow-python-module xml.etree.ElementTree
+allow-python-module pathlib
+allow-python-module configparser
+"""
+        config = parse_config(text)
+        assert config.python_allow_modules == {
+            "xml.etree.ElementTree",
+            "pathlib",
+            "configparser",
+        }
+
+    def test_config_merge_python_allow_modules(self):
+        """python_allow_modules should accumulate across merged configs."""
+        from dippy.core.config import parse_config
+
+        user_config = parse_config("allow-python-module pathlib")
+        project_config = parse_config("allow-python-module xml.etree.ElementTree")
+
+        from dataclasses import replace
+        merged = replace(
+            user_config,
+            rules=user_config.rules + project_config.rules,
+            python_allow_modules=user_config.python_allow_modules | project_config.python_allow_modules,
+        )
+        assert merged.python_allow_modules == {"pathlib", "xml.etree.ElementTree"}
+
+    def test_unit_user_allowed_skips_dangerous(self):
+        """Unit test: user-allowed modules should not produce violations."""
+        from dippy.cli.python import analyze_python_source
+
+        source = "import xml.etree.ElementTree"
+        violations = analyze_python_source(
+            source, user_allowed_modules=frozenset({"xml.etree.ElementTree"})
+        )
+        assert len(violations) == 0, f"Expected no violations, got {violations}"
+
+    def test_unit_user_allowed_root_covers_submodule(self):
+        """Unit test: allowing root covers submodule imports."""
+        from dippy.cli.python import analyze_python_source
+
+        source = "from xml.etree import ElementTree"
+        violations = analyze_python_source(
+            source, user_allowed_modules=frozenset({"xml"})
+        )
+        assert len(violations) == 0, f"Expected no violations, got {violations}"
+
+    def test_config_parse_missing_module_name(self):
+        """allow-python-module without a module name should be skipped."""
+        from dippy.core.config import parse_config
+
+        config = parse_config("allow-python-module")
+        assert config.python_allow_modules == set()
+
+    def test_config_parse_duplicate_modules(self):
+        """Duplicate allow-python-module entries should be idempotent."""
+        from dippy.core.config import parse_config
+
+        text = """
+allow-python-module pathlib
+allow-python-module pathlib
+allow-python-module pathlib
+"""
+        config = parse_config(text)
+        assert config.python_allow_modules == {"pathlib"}
+
+    def test_merge_configs_accumulates_modules(self):
+        """_merge_configs should union python_allow_modules from both configs."""
+        from dippy.core.config import Config, _merge_configs
+
+        base = Config(python_allow_modules={"pathlib"})
+        overlay = Config(python_allow_modules={"xml.etree.ElementTree"})
+        merged = _merge_configs(base, overlay)
+        assert merged.python_allow_modules == {"pathlib", "xml.etree.ElementTree"}
+
+    def test_allow_does_not_bypass_other_violations(self, check, tmp_path):
+        """Allowing a module should not bypass other violations like eval()."""
+        from dippy.core.config import Config
+
+        script = tmp_path / "allowed_but_eval.py"
+        script.write_text("""
+import pathlib
+x = eval("1 + 1")
+""")
+        config = Config(python_allow_modules={"pathlib"})
+        result = check(f"python {script}", config=config)
+        assert needs_confirmation(result), "eval() should still be blocked"
+
+    def test_allow_does_not_bypass_unknown_modules(self, check, tmp_path):
+        """Allowing one module should not affect unknown (third-party) modules."""
+        from dippy.core.config import Config
+
+        script = tmp_path / "allowed_plus_unknown.py"
+        script.write_text("""
+import pathlib
+import pandas
+""")
+        config = Config(python_allow_modules={"pathlib"})
+        result = check(f"python {script}", config=config)
+        assert needs_confirmation(result), "unknown module pandas should still be blocked"
+
+    def test_allow_does_not_bypass_dangerous_attrs(self, check, tmp_path):
+        """Allowing a module should not bypass dangerous attribute checks."""
+        from dippy.core.config import Config
+
+        script = tmp_path / "allowed_but_attrs.py"
+        script.write_text("""
+import xml.etree.ElementTree as ET
+def foo():
+    pass
+g = foo.__globals__
+""")
+        config = Config(python_allow_modules={"xml.etree.ElementTree"})
+        result = check(f"python {script}", config=config)
+        assert needs_confirmation(result), "__globals__ should still be blocked"

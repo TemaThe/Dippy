@@ -62,6 +62,9 @@ class Config:
     aliases: dict[str, str] = field(default_factory=dict)
     """Command aliases mapping source to target (e.g., ~/bin/gh -> gh)."""
 
+    python_allow_modules: set[str] = field(default_factory=set)
+    """Python modules explicitly allowed via 'allow-python-module'."""
+
     default: str = "ask"  # 'allow' | 'ask'
     log: Path | None = None  # None = no logging
     log_full: bool = False  # log full command (requires log path)
@@ -122,6 +125,8 @@ def _merge_configs(base: Config, overlay: Config) -> Config:
         after_mcp_rules=base.after_mcp_rules + overlay.after_mcp_rules,
         # Aliases: overlay wins for conflicting keys
         aliases={**base.aliases, **overlay.aliases},
+        # Accumulative sets
+        python_allow_modules=base.python_allow_modules | overlay.python_allow_modules,
         # Settings: overlay wins if set
         default=overlay.default if overlay.default != "ask" else base.default,
         log=overlay.log if overlay.log is not None else base.log,
@@ -209,6 +214,7 @@ def parse_config(text: str, source: str | None = None) -> Config:
     mcp_rules: list[Rule] = []
     after_mcp_rules: list[Rule] = []
     aliases: dict[str, str] = {}
+    python_allow_modules: set[str] = set()
     settings: dict[str, bool | int | str | Path] = {}
     prefix = f"{source}: " if source else ""
 
@@ -308,6 +314,11 @@ def parse_config(text: str, source: str | None = None) -> Config:
                 pattern, message = _extract_message(rest)
                 after_mcp_rules.append(Rule("after", pattern, message=message))
 
+            elif directive == "allow-python-module":
+                if not rest:
+                    raise ValueError("requires a module name")
+                python_allow_modules.add(rest)
+
             elif directive == "alias":
                 parts = rest.split()
                 if len(parts) != 2:
@@ -337,6 +348,7 @@ def parse_config(text: str, source: str | None = None) -> Config:
         mcp_rules=mcp_rules,
         after_mcp_rules=after_mcp_rules,
         aliases=aliases,
+        python_allow_modules=python_allow_modules,
         default=settings.get("default", "ask"),
         log=settings.get("log"),
         log_full=settings.get("log_full", False),

@@ -523,9 +523,10 @@ class SafetyAnalyzer(ast.NodeVisitor):
     are allowed. Anything unknown is flagged.
     """
 
-    def __init__(self, allow_print: bool = True):
+    def __init__(self, allow_print: bool = True, user_allowed_modules: frozenset[str] = frozenset()):
         self.violations: list[Violation] = []
         self.allow_print = allow_print
+        self._user_allowed = user_allowed_modules
 
     def _add(self, node: ast.AST, kind: str, detail: str) -> None:
         self.violations.append(
@@ -550,7 +551,9 @@ class SafetyAnalyzer(ast.NodeVisitor):
             module = alias.name
             root = module.split(".")[0]
 
-            if module in DANGEROUS_MODULES or root in DANGEROUS_MODULES:
+            if module in self._user_allowed or root in self._user_allowed:
+                pass  # user explicitly allowed this module
+            elif module in DANGEROUS_MODULES or root in DANGEROUS_MODULES:
                 self._add(node, "import", self._dangerous_msg(module, root))
             elif module not in SAFE_MODULES and root not in SAFE_MODULES:
                 self._add(node, "import", f"unknown module: {module}")
@@ -565,7 +568,9 @@ class SafetyAnalyzer(ast.NodeVisitor):
         module = node.module
         root = module.split(".")[0]
 
-        if module in DANGEROUS_MODULES or root in DANGEROUS_MODULES:
+        if module in self._user_allowed or root in self._user_allowed:
+            pass  # user explicitly allowed this module
+        elif module in DANGEROUS_MODULES or root in DANGEROUS_MODULES:
             self._add(node, "import", self._dangerous_msg(module, root))
         elif module not in SAFE_MODULES and root not in SAFE_MODULES:
             self._add(node, "import", f"unknown module: {module}")
@@ -690,7 +695,11 @@ class SafetyAnalyzer(ast.NodeVisitor):
         self.generic_visit(node)
 
 
-def analyze_python_source(source: str, allow_print: bool = True) -> list[Violation]:
+def analyze_python_source(
+    source: str,
+    allow_print: bool = True,
+    user_allowed_modules: frozenset[str] = frozenset(),
+) -> list[Violation]:
     """
     Analyze Python source code for safety violations.
 
@@ -701,12 +710,15 @@ def analyze_python_source(source: str, allow_print: bool = True) -> list[Violati
     except SyntaxError as e:
         return [Violation(e.lineno or 0, e.offset or 0, "syntax", str(e))]
 
-    analyzer = SafetyAnalyzer(allow_print=allow_print)
+    analyzer = SafetyAnalyzer(allow_print=allow_print, user_allowed_modules=user_allowed_modules)
     analyzer.visit(tree)
     return analyzer.violations
 
 
-def analyze_python_file(path: Path) -> tuple[bool, str]:
+def analyze_python_file(
+    path: Path,
+    user_allowed_modules: frozenset[str] = frozenset(),
+) -> tuple[bool, str]:
     """
     Analyze a Python file for safety.
 
@@ -736,7 +748,7 @@ def analyze_python_file(path: Path) -> tuple[bool, str]:
     except (OSError, UnicodeDecodeError) as e:
         return False, f"cannot read file: {e}"
 
-    violations = analyze_python_source(source)
+    violations = analyze_python_source(source, user_allowed_modules=user_allowed_modules)
 
     if violations:
         # Return first violation as reason
@@ -892,7 +904,7 @@ def classify(ctx: HandlerContext) -> Classification:
         return Classification("ask", description=desc)
 
     # Try to analyze the script
-    is_safe, reason = analyze_python_file(script_path)
+    is_safe, reason = analyze_python_file(script_path, user_allowed_modules=ctx.python_allow_modules)
 
     if is_safe:
         return Classification("allow", description=f"{desc} (analyzed)")

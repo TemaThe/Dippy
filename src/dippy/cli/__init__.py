@@ -20,6 +20,7 @@ class HandlerContext:
     """Context passed to handlers."""
 
     tokens: list[str]
+    python_allow_modules: frozenset[str] = frozenset()
 
 
 @dataclass(frozen=True)
