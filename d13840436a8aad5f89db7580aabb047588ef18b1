@@ -1,0 +1,34 @@
+{
+    "version": "0.1.0",
+    "id": "28b5d0b0-5586-4d70-b0ab-3a9a1d09f6aa",
+    "timestamp": "2026-03-03T12:58:41.316352Z",
+    "vcs": {
+        "type": "git",
+        "revision": "d13840436a8aad5f89db7580aabb047588ef18b1",
+        "origin": "github",
+        "repository": "git@github.com:TemaThe/Dippy2.git"
+    },
+    "tool": {
+        "name": "chatter-cli"
+    },
+    "files": [
+        {
+            "path": "docs/example-global-config",
+            "conversations": [
+                {
+                    "url": "git+CLAUDE_CODE:blob:acd8c85a66592bea1c13f2b0de55a1b0b5eb9d66",
+                    "contributor": {
+                        "type": "ai",
+                        "model_id": "2.1.63"
+                    },
+                    "ranges": [
+                        {
+                            "start_line": 14,
+                            "end_line": 17
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
