@@ -1,0 +1,214 @@
+{
+    "version": "0.1.0",
+    "id": "d7795bcf-b9d5-400a-b84e-b94b57c32fed",
+    "timestamp": "2026-03-03T00:45:26.919371Z",
+    "vcs": {
+        "type": "git",
+        "revision": "6bcccc25e17b0ee6bb7a08595735321d0969b433",
+        "origin": "github",
+        "repository": "git@github.com:TemaThe/Dippy.git"
+    },
+    "tool": {
+        "name": "chatter-cli"
+    },
+    "files": [
+        {
+            "path": ".gitignore",
+            "conversations": [
+                {
+                    "url": "git+CLAUDE_CODE:blob:d6cfc9dd754d1988cf117ada92ecdc7b67df6031",
+                    "contributor": {
+                        "type": "ai",
+                        "model_id": "2.1.63"
+                    },
+                    "ranges": [
+                        {
+                            "start_line": 47,
+                            "end_line": 48
+                        },
+                        {
+                            "start_line": 50,
+                            "end_line": 51
+                        },
+                        {
+                            "start_line": 53,
+                            "end_line": 54
+                        },
+                        {
+                            "start_line": 56,
+                            "end_line": 57
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "README.md",
+            "conversations": [
+                {
+                    "url": "git+CLAUDE_CODE:blob:d6cfc9dd754d1988cf117ada92ecdc7b67df6031",
+                    "contributor": {
+                        "type": "ai",
+                        "model_id": "2.1.63"
+                    },
+                    "ranges": [
+                        {
+                            "start_line": 4,
+                            "end_line": 4
+                        },
+                        {
+                            "start_line": 6,
+                            "end_line": 10
+                        },
+                        {
+                            "start_line": 12,
+                            "end_line": 15
+                        },
+                        {
+                            "start_line": 17,
+                            "end_line": 17
+                        },
+                        {
+                            "start_line": 21,
+                            "end_line": 24
+                        },
+                        {
+                            "start_line": 26,
+                            "end_line": 28
+                        },
+                        {
+                            "start_line": 30,
+                            "end_line": 30
+                        },
+                        {
+                            "start_line": 42,
+                            "end_line": 45
+                        },
+                        {
+                            "start_line": 49,
+                            "end_line": 50
+                        },
+                        {
+                            "start_line": 53,
+                            "end_line": 53
+                        },
+                        {
+                            "start_line": 56,
+                            "end_line": 56
+                        },
+                        {
+                            "start_line": 62,
+                            "end_line": 62
+                        },
+                        {
+                            "start_line": 64,
+                            "end_line": 64
+                        },
+                        {
+                            "start_line": 67,
+                            "end_line": 69
+                        },
+                        {
+                            "start_line": 72,
+                            "end_line": 72
+                        },
+                        {
+                            "start_line": 74,
+                            "end_line": 76
+                        },
+                        {
+                            "start_line": 78,
+                            "end_line": 80
+                        },
+                        {
+                            "start_line": 82,
+                            "end_line": 86
+                        },
+                        {
+                            "start_line": 90,
+                            "end_line": 90
+                        },
+                        {
+                            "start_line": 167,
+                            "end_line": 167
+                        },
+                        {
+                            "start_line": 169,
+                            "end_line": 169
+                        },
+                        {
+                            "start_line": 171,
+                            "end_line": 172
+                        },
+                        {
+                            "start_line": 175,
+                            "end_line": 175
+                        },
+                        {
+                            "start_line": 177,
+                            "end_line": 177
+                        },
+                        {
+                            "start_line": 179,
+                            "end_line": 179
+                        },
+                        {
+                            "start_line": 181,
+                            "end_line": 181
+                        },
+                        {
+                            "start_line": 183,
+                            "end_line": 183
+                        },
+                        {
+                            "start_line": 185,
+                            "end_line": 185
+                        },
+                        {
+                            "start_line": 187,
+                            "end_line": 194
+                        },
+                        {
+                            "start_line": 196,
+                            "end_line": 196
+                        },
+                        {
+                            "start_line": 198,
+                            "end_line": 198
+                        },
+                        {
+                            "start_line": 200,
+                            "end_line": 203
+                        },
+                        {
+                            "start_line": 205,
+                            "end_line": 205
+                        },
+                        {
+                            "start_line": 207,
+                            "end_line": 242
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "docs/example-global-config",
+            "conversations": [
+                {
+                    "url": "git+CLAUDE_CODE:blob:d6cfc9dd754d1988cf117ada92ecdc7b67df6031",
+                    "contributor": {
+                        "type": "ai",
+                        "model_id": "2.1.63"
+                    },
+                    "ranges": [
+                        {
+                            "start_line": 270,
+                            "end_line": 272
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
