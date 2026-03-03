@@ -11,6 +11,11 @@
 # IMPORTANT: Dippy does NOT support inline comments.
 # Comments must be on their own line.
 
+# Allow cleanup of tmp folders (safe scratch space for AI-generated files)
+allow rm **/tmp/*
+allow rm -r **/tmp/*
+allow rm -rf **/tmp/*
+
 #---- Denied (blocked with AI-readable message) ----#
 deny eval "Never use eval in shell commands. Remove eval and run the command directly, or use bash -c"
 deny sudo "sudo is blocked. Running as root is never allowed - find a non-root alternative"
