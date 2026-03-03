@@ -1,0 +1,340 @@
+{
+    "version": "0.1.0",
+    "id": "aa9680a4-c30f-48af-96ef-fa56525cb8b3",
+    "timestamp": "2026-03-03T18:28:50.237682Z",
+    "vcs": {
+        "type": "git",
+        "revision": "9d4c6c48f1a2bc3e290ddfc571e0b1cd5b54d257",
+        "origin": "github",
+        "repository": "git@github.com:TemaThe/Dippy2.git"
+    },
+    "tool": {
+        "name": "chatter-cli"
+    },
+    "files": [
+        {
+            "path": "CHANGELOG.md",
+            "conversations": [
+                {
+                    "url": "git+CLAUDE_CODE:blob:dd9778b290c7b1a4bd2e509957038730f7cf7502",
+                    "contributor": {
+                        "type": "ai",
+                        "model_id": "2.1.63"
+                    },
+                    "ranges": [
+                        {
+                            "start_line": 1,
+                            "end_line": 1
+                        },
+                        {
+                            "start_line": 3,
+                            "end_line": 21
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "README.md",
+            "conversations": [
+                {
+                    "url": "git+CLAUDE_CODE:blob:dd9778b290c7b1a4bd2e509957038730f7cf7502",
+                    "contributor": {
+                        "type": "ai",
+                        "model_id": "2.1.63"
+                    },
+                    "ranges": [
+                        {
+                            "start_line": 79,
+                            "end_line": 79
+                        },
+                        {
+                            "start_line": 95,
+                            "end_line": 95
+                        },
+                        {
+                            "start_line": 222,
+                            "end_line": 233
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "pyproject.toml",
+            "conversations": [
+                {
+                    "url": "git+CLAUDE_CODE:blob:dd9778b290c7b1a4bd2e509957038730f7cf7502",
+                    "contributor": {
+                        "type": "ai",
+                        "model_id": "2.1.63"
+                    },
+                    "ranges": [
+                        {
+                            "start_line": 3,
+                            "end_line": 3
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "src/dippy/cli/__init__.py",
+            "conversations": [
+                {
+                    "url": "git+CLAUDE_CODE:blob:dd9778b290c7b1a4bd2e509957038730f7cf7502",
+                    "contributor": {
+                        "type": "ai",
+                        "model_id": "2.1.63"
+                    },
+                    "ranges": [
+                        {
+                            "start_line": 12,
+                            "end_line": 12
+                        },
+                        {
+                            "start_line": 15,
+                            "end_line": 15
+                        },
+                        {
+                            "start_line": 17,
+                            "end_line": 18
+                        },
+                        {
+                            "start_line": 27,
+                            "end_line": 28
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "src/dippy/cli/python.py",
+            "conversations": [
+                {
+                    "url": "git+CLAUDE_CODE:blob:dd9778b290c7b1a4bd2e509957038730f7cf7502",
+                    "contributor": {
+                        "type": "ai",
+                        "model_id": "2.1.63"
+                    },
+                    "ranges": [
+                        {
+                            "start_line": 519,
+                            "end_line": 523
+                        },
+                        {
+                            "start_line": 526,
+                            "end_line": 541
+                        },
+                        {
+                            "start_line": 543,
+                            "end_line": 552
+                        },
+                        {
+                            "start_line": 554,
+                            "end_line": 554
+                        },
+                        {
+                            "start_line": 556,
+                            "end_line": 560
+                        },
+                        {
+                            "start_line": 573,
+                            "end_line": 574
+                        },
+                        {
+                            "start_line": 577,
+                            "end_line": 577
+                        },
+                        {
+                            "start_line": 580,
+                            "end_line": 580
+                        },
+                        {
+                            "start_line": 601,
+                            "end_line": 602
+                        },
+                        {
+                            "start_line": 650,
+                            "end_line": 658
+                        },
+                        {
+                            "start_line": 660,
+                            "end_line": 664
+                        },
+                        {
+                            "start_line": 766,
+                            "end_line": 766
+                        },
+                        {
+                            "start_line": 770,
+                            "end_line": 772
+                        },
+                        {
+                            "start_line": 777,
+                            "end_line": 777
+                        },
+                        {
+                            "start_line": 783,
+                            "end_line": 783
+                        },
+                        {
+                            "start_line": 789,
+                            "end_line": 789
+                        },
+                        {
+                            "start_line": 793,
+                            "end_line": 794
+                        },
+                        {
+                            "start_line": 797,
+                            "end_line": 797
+                        },
+                        {
+                            "start_line": 800,
+                            "end_line": 800
+                        },
+                        {
+                            "start_line": 804,
+                            "end_line": 804
+                        },
+                        {
+                            "start_line": 810,
+                            "end_line": 810
+                        },
+                        {
+                            "start_line": 812,
+                            "end_line": 812
+                        },
+                        {
+                            "start_line": 818,
+                            "end_line": 818
+                        },
+                        {
+                            "start_line": 827,
+                            "end_line": 827
+                        },
+                        {
+                            "start_line": 829,
+                            "end_line": 829
+                        },
+                        {
+                            "start_line": 978,
+                            "end_line": 979
+                        },
+                        {
+                            "start_line": 982,
+                            "end_line": 982
+                        },
+                        {
+                            "start_line": 986,
+                            "end_line": 998
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "tests/cli/test_python.py",
+            "conversations": [
+                {
+                    "url": "git+CLAUDE_CODE:blob:dd9778b290c7b1a4bd2e509957038730f7cf7502",
+                    "contributor": {
+                        "type": "ai",
+                        "model_id": "2.1.63"
+                    },
+                    "ranges": [
+                        {
+                            "start_line": 522,
+                            "end_line": 522
+                        },
+                        {
+                            "start_line": 533,
+                            "end_line": 533
+                        },
+                        {
+                            "start_line": 544,
+                            "end_line": 544
+                        },
+                        {
+                            "start_line": 1240,
+                            "end_line": 1240
+                        },
+                        {
+                            "start_line": 1249,
+                            "end_line": 1249
+                        },
+                        {
+                            "start_line": 1258,
+                            "end_line": 1258
+                        },
+                        {
+                            "start_line": 1271,
+                            "end_line": 1271
+                        },
+                        {
+                            "start_line": 1284,
+                            "end_line": 1284
+                        },
+                        {
+                            "start_line": 1301,
+                            "end_line": 1301
+                        },
+                        {
+                            "start_line": 1423,
+                            "end_line": 1423
+                        },
+                        {
+                            "start_line": 1433,
+                            "end_line": 1433
+                        },
+                        {
+                            "start_line": 1508,
+                            "end_line": 1509
+                        },
+                        {
+                            "start_line": 1511,
+                            "end_line": 1511
+                        },
+                        {
+                            "start_line": 1513,
+                            "end_line": 1599
+                        },
+                        {
+                            "start_line": 1601,
+                            "end_line": 1601
+                        },
+                        {
+                            "start_line": 1603,
+                            "end_line": 1656
+                        },
+                        {
+                            "start_line": 1658,
+                            "end_line": 1658
+                        },
+                        {
+                            "start_line": 1660,
+                            "end_line": 1676
+                        },
+                        {
+                            "start_line": 1678,
+                            "end_line": 1687
+                        },
+                        {
+                            "start_line": 1689,
+                            "end_line": 1705
+                        },
+                        {
+                            "start_line": 1707,
+                            "end_line": 1707
+                        },
+                        {
+                            "start_line": 1709,
+                            "end_line": 1825
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
