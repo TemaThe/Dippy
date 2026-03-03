@@ -19,7 +19,8 @@ allow rm -rf **/tmp/*
 #---- Denied (blocked with AI-readable message) ----#
 deny eval "Never use eval in shell commands. Remove eval and run the command directly, or use bash -c"
 deny sudo "sudo is blocked. Running as root is never allowed - find a non-root alternative"
-deny rm -rf /* "Too dangerous - be more specific"
+deny rm -rf / "Deleting root filesystem is forbidden"
+ask rm -rf * "Confirm recursive force delete"
 deny git push --force * "Use --force-with-lease instead"
 deny git push -f * "Use --force-with-lease instead"
 deny git reset --hard * "Confirm before discarding changes"
