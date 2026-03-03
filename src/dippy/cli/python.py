@@ -55,6 +55,7 @@ SAFE_MODULES = frozenset(
         "json",  # json.load/dump need file objects, but open() is blocked
         "csv",  # csv.reader/writer need file objects, but open() is blocked
         "tomllib",  # Read-only TOML (Python 3.11+), no file I/O methods
+        "yaml",  # PyYAML - YAML parser, no file I/O methods without open()
         # Note: configparser excluded - can read files directly
         # Note: xml excluded - security concerns (XXE)
         # Note: codecs excluded - codecs.open() can read/write files
